@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phonebook-deployment
+  labels:
+    app: phonebook
+spec:
+  replicas: {{.Values.phonebook.replicaCount}}
+  selector:
+    matchLabels:
+      app: phonebook
+  template:
+    metadata:
+      labels:
+        app: phonebook
+    spec:
+      containers:
+      - name: phonebook
+        image: "{{.Values.phonebook.image.repository}}:{{.Values.phonebook.image.tag}}"
+        imagePullPolicy: {{.Values.phonebook.image.imagePullPolicy}}
+        ports:
+        - containerPort: {{.Values.phonebook.service.port}}
+        env:
+          - name: NODE_ENV
+            value: "production"
+          - name: PORT
+            value: "{{.Values.phonebook.service.port}}"
+          - name: MONGODB_URL
+            value: "mongodb://mongodb:27017"

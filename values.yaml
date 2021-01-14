@@ -1,0 +1,22 @@
+phonebook:
+  replicaCount: 1
+  image:
+    repository: pradyumn5/nodejs-phonebook
+    tag: latest
+    imagePullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 80
+
+db:
+  replicaCount: 1
+  image:
+    repository: mongo
+    tag: latest
+    imagePullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 27017
+  volume:
+    capacity: 1Gi
+    

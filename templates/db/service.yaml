@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+spec:
+  type: {{.Values.db.service.type}}
+  selector:
+    app: mongodb
+  ports:
+    - port: {{.Values.db.service.port}}

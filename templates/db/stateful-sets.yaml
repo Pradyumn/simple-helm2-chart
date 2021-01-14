@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+  labels:
+    app: mongodb
+spec:
+  replicas: {{.Values.db.replicaCount}}
+  serviceName: mongodb
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: "{{.Values.db.image.repository}}:{{.Values.db.image.tag}}"
+        imagePullPolicy: {{.Values.db.image.imagePullPolicy}}
+        ports:
+        - name: mongodbport
+          containerPort: {{.Values.db.service.port}}
+        volumeMounts:
+        - name: mongo-pv-storage
+          mountPath: /data/db
+      volumes:
+      - name: mongo-pv-storage
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim
+    
